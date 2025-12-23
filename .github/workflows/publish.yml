@@ -27,11 +27,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -e .
+        pip install pytest
     
     - name: Run tests
       run: |
-        python -m pytest tests/ -v || echo "No tests found or tests failed - continuing"
-      continue-on-error: true
+        python -m pytest tests/ -v
 
   publish:
     name: Build and Publish to PyPI
@@ -73,7 +73,7 @@ jobs:
         NEW_VERSION=$(grep "new_version=" version_output.txt | cut -d'=' -f2)
         echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
         
-        # Commit and push
+        # Commit and push with [skip ci] to avoid infinite loop
         git add setup.py
         git commit -m "Bump version to $NEW_VERSION [skip ci]"
         git push origin main
@@ -83,7 +83,7 @@ jobs:
         python -m build
     
     - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@v1.10.3
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
         skip-existing: true

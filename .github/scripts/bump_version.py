@@ -4,14 +4,15 @@ Script to bump version in setup.py
 """
 import re
 import sys
+import os
 
 def bump_version(setup_file='setup.py'):
     """Bump the patch version in setup.py"""
     with open(setup_file, 'r') as f:
         content = f.read()
     
-    # Find current version
-    version_pattern = r"version='(\d+)\.(\d+)\.(\d+)'"
+    # Find current version - handle both single and double quotes
+    version_pattern = r"version=['\"](\d+)\.(\d+)\.(\d+)['\"]"
     match = re.search(version_pattern, content)
     
     if not match:
@@ -25,10 +26,11 @@ def bump_version(setup_file='setup.py'):
     new_patch = int(patch) + 1
     new_version = f"{major}.{minor}.{new_patch}"
     
-    # Replace version in content
-    new_content = content.replace(
-        f"version='{current_version}'",
-        f"version='{new_version}'"
+    # Replace version in content (preserve original quote style)
+    new_content = re.sub(
+        r"version=['\"]" + re.escape(current_version) + r"['\"]",
+        f"version='{new_version}'",
+        content
     )
     
     # Write back
@@ -36,7 +38,13 @@ def bump_version(setup_file='setup.py'):
         f.write(new_content)
     
     print(f"Version bumped from {current_version} to {new_version}")
-    print(f"::set-output name=new_version::{new_version}")
+    
+    # Output for GitHub Actions (modern syntax)
+    github_output = os.environ.get('GITHUB_OUTPUT')
+    if github_output:
+        with open(github_output, 'a') as f:
+            f.write(f"new_version={new_version}\n")
+    
     print(f"new_version={new_version}")
     
     return new_version
