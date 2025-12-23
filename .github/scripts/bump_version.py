@@ -26,10 +26,17 @@ def bump_version(setup_file='setup.py'):
     new_patch = int(patch) + 1
     new_version = f"{major}.{minor}.{new_patch}"
     
+    # Determine original quote style
+    original_match = match.group(0)
+    if '"' in original_match:
+        quote_char = '"'
+    else:
+        quote_char = "'"
+    
     # Replace version in content (preserve original quote style)
     new_content = re.sub(
         r"version=['\"]" + re.escape(current_version) + r"['\"]",
-        f"version='{new_version}'",
+        f"version={quote_char}{new_version}{quote_char}",
         content
     )
     

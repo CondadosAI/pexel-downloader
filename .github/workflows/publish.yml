@@ -25,9 +25,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         pip install -e .
         pip install pytest
+      shell: bash
     
     - name: Run tests
       run: |
@@ -66,11 +67,11 @@ jobs:
       id: bump_version
       run: |
         # Run Python script to bump version
-        python .github/scripts/bump_version.py > version_output.txt
-        cat version_output.txt
+        python .github/scripts/bump_version.py
         
-        # Extract new version from output
-        NEW_VERSION=$(grep "new_version=" version_output.txt | cut -d'=' -f2)
+        # Extract new version from setup.py
+        NEW_VERSION=$(python setup.py --version)
+        echo "Bumped to version: $NEW_VERSION"
         echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
         
         # Commit and push with [skip ci] to avoid infinite loop
