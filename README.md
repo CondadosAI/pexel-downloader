@@ -76,6 +76,16 @@ To use Pexel Downloader, you need a Pexels API key:
 Replace your_actual_api_key with the your key you received from Pexels.
 
 
+## 🔄 CI/CD
+---
+This project uses GitHub Actions for automated testing, publishing to PyPI, and creating releases. Every merge to the main branch automatically:
+- Tests the package on Linux, macOS, and Windows (Python 3.8-3.12)
+- Bumps the version number
+- Publishes to PyPI
+- Creates a GitHub release
+
+For more details, see [`.github/README.md`](.github/README.md).
+
 
 📜 **License:**
 ---
