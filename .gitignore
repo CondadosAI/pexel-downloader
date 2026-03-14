@@ -1,10 +1,22 @@
 # folders to ignore
-images
-videos
-__pycache__
-build
-dist
-pexel_downloader.egg-info
+images/
+videos/
+downloads/
+__pycache__/
+build/
+dist/
+*.egg-info/
+
+# uv
+.venv/
+uv.lock
 
 # extensions
 *.csv
+
+# Python
+*.pyc
+.python-version
+
+# Auto-generated version file
+pexel_downloader/_version.py
