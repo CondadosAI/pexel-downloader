@@ -88,8 +88,10 @@ class TestCLIDownloadImages:
 
 class TestCLIDownloadVideos:
     @patch.dict(os.environ, {"PEXEL_API_KEY": "fake-key"})
+    @patch("pexel_downloader.cli.get_download_dir", return_value="downloads")
+    @patch("pexel_downloader.cli.get_size", return_value="medium")
     @patch("pexel_downloader.cli.PexelDownloader")
-    def test_download_videos(self, mock_cls, tmp_path):
+    def test_download_videos(self, mock_cls, mock_size, mock_dir, tmp_path):
         mock_instance = MagicMock()
         mock_cls.return_value = mock_instance
 
