@@ -1,11 +1,16 @@
 import os
+import re
 from unittest.mock import MagicMock, patch
 
 from typer.testing import CliRunner
 
 from pexel_downloader.cli import app
 
-runner = CliRunner(env={"NO_COLOR": "1"})
+runner = CliRunner()
+
+
+def _strip_ansi(text: str) -> str:
+    return re.sub(r"\x1b\[[0-9;]*m", "", text)
 
 
 class TestCLIHelp:
@@ -15,20 +20,23 @@ class TestCLIHelp:
 
     def test_help_shows_commands(self):
         result = runner.invoke(app, ["--help"])
-        assert "download" in result.output
-        assert "config" in result.output
+        output = _strip_ansi(result.output)
+        assert "download" in output
+        assert "config" in output
 
     def test_download_help_shows_arguments(self):
         result = runner.invoke(app, ["download", "--help"])
+        output = _strip_ansi(result.output)
         assert result.exit_code == 0
-        assert "QUERY" in result.output
-        assert "NUM" in result.output
+        assert "QUERY" in output
+        assert "NUM" in output
 
     def test_download_help_shows_options(self):
         result = runner.invoke(app, ["download", "--help"])
-        assert "--size" in result.output
-        assert "--save-directory" in result.output
-        assert "--start-page" in result.output
+        output = _strip_ansi(result.output)
+        assert "--size" in output
+        assert "--save-directory" in output
+        assert "--start-page" in output
 
 
 class TestCLIDownloadImages:
