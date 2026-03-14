@@ -228,17 +228,6 @@ uv run pytest tests/ -v
 uv run pexel-downloader --help
 ```
 
-## Publishing
-
-Versioning is automatic — derived from git tags using [hatch-vcs](https://github.com/ofek/hatch-vcs). To release:
-
-1. `git tag v0.5.0`
-2. `git push origin v0.5.0`
-3. Create a GitHub release from that tag
-4. The workflow builds and publishes to PyPI automatically
-
-**First-time setup:** Configure [PyPI trusted publishing](https://docs.pypi.org/trusted-publishers/) for your GitHub repository and create a GitHub environment named `pypi`.
-
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
