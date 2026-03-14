@@ -1,5 +1,10 @@
 # pexel-downloader
 
+[![CI](https://github.com/Gabriellgpc/pexel-downloader/actions/workflows/ci.yml/badge.svg)](https://github.com/Gabriellgpc/pexel-downloader/actions/workflows/ci.yml)
+[![PyPI](https://img.shields.io/pypi/v/pexel-downloader)](https://pypi.org/project/pexel-downloader/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pexel-downloader)](https://pypi.org/project/pexel-downloader/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 Download high-quality photos and videos from [Pexels.com](https://www.pexels.com/) with a simple CLI.
 
 ![pexel-downloader](https://github.com/Gabriellgpc/pexel-downloader/raw/main/pexel_downloader-logo.jpg)
