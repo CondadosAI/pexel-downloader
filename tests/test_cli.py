@@ -5,7 +5,7 @@ from typer.testing import CliRunner
 
 from pexel_downloader.cli import app
 
-runner = CliRunner()
+runner = CliRunner(env={"NO_COLOR": "1"})
 
 
 class TestCLIHelp:
