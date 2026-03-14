@@ -1,0 +1,44 @@
+[project]
+name = "pexel-downloader"
+dynamic = ["version"]
+description = "Download images and videos from Pexels."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Luis Condados", email = "condadoslgpc@gmail.com" },
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests",
+    "joblib",
+    "typer",
+    "tqdm",
+]
+
+[project.urls]
+Homepage = "https://github.com/Gabriellgpc/pexel-downloader"
+Repository = "https://github.com/Gabriellgpc/pexel-downloader"
+
+[project.scripts]
+pexel-downloader = "pexel_downloader.cli:cli"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "pexel_downloader/_version.py"
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
