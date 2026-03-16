@@ -38,6 +38,7 @@ class PexelDownloader:
         headers = {"Authorization": self.api_key}
         params = {"query": query, "per_page": per_page, "page": page}
         response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()
         return response.json()
 
     def search_videos(self, query: str, per_page: int = 80, page: int = 1) -> dict:
@@ -45,6 +46,7 @@ class PexelDownloader:
         headers = {"Authorization": self.api_key}
         params = {"query": query, "per_page": per_page, "page": page}
         response = requests.get(url, headers=headers, params=params)
+        response.raise_for_status()
         return response.json()
 
     def _download_image(self, img_url: str, img_name: str) -> None:

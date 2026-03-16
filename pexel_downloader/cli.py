@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Annotated
 
 import typer
+from requests import HTTPError
 
 from .client import PexelDownloader
 from .config import get_api_key, get_content_type, get_download_dir, get_size, save_config
@@ -60,14 +61,18 @@ def download(
     if save_directory is None:
         save_directory = get_download_dir()
 
-    if content_type == ContentType.image:
-        downloader.download_images(
-            query=query, num_images=num, save_directory=save_directory, size=size, page=start_page
-        )
-    else:
-        downloader.download_videos(
-            query=query, num_videos=num, save_directory=save_directory, size=size, page=start_page
-        )
+    try:
+        if content_type == ContentType.image:
+            downloader.download_images(
+                query=query, num_images=num, save_directory=save_directory, size=size, page=start_page
+            )
+        else:
+            downloader.download_videos(
+                query=query, num_videos=num, save_directory=save_directory, size=size, page=start_page
+            )
+    except HTTPError as e:
+        typer.echo(f"[ERROR] Pexels API error: {e}", err=True)
+        raise typer.Exit(1)
 
     absolute_path = Path(save_directory).resolve()
     typer.echo(f"[INFO] Downloaded {num} {content_type.value}s to {absolute_path}")
